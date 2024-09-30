@@ -1,16 +1,37 @@
 import { useEffect, useState, useRef } from "react";
-import { db } from "./db";
+import { db, storage } from "./db";
 import { getDoc, updateDoc, doc } from "firebase/firestore";
 import DefaultImage from "./assets/uploading-icon-removebg.png";
 import { upload } from "@testing-library/user-event/dist/upload";
+// import {
+//   getDownloadURL,
+//   ref as storageRef,
+//   uploadBytes,
+// } from "firebase/storage";
+
+import {
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
+
+function uuidv4() {
+  return "10000000-1000-4000-8000-100000000000".replace(
+    /[018]/g,
+    (c) =>
+      (
+        +c ^
+        (crypto.getRandomValues(new Uint8Array(1))[0] &
+          (15 >> (+c / 4)))
+      ).toString(16)
+  );
+}
 
 const getUserId = () => window.location.host.split(".")[0];
 
 function App() {
   const [data, setData] = useState(null);
-  const [imgFile, setImgFile] = useState(DefaultImage);
-
-  const fileUploadRef = useRef(null);
+  // const [imageURL, setImageURL] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,19 +61,43 @@ function App() {
     setData({ ...data, about_me_sub_title: e.target.value });
   };
 
-  const handleImageUpload = (event) => {
-    event.preventDefault();
-    fileUploadRef.current.click();
+  // const handleImageUpload = (event) => {
+  //   event.preventDefault();
+  //   fileUploadRef.current.click();
+  // };
+
+  // const uploadImageDisplay = async () => {
+  //   const uploadedFile = fileUploadRef.current.files[0];
+  //   const cachedUrl = URL.createObjectURL(uploadedFile)
+  //   setImgFile(cachedUrl)
+  // }
+
+  // //
+
+  const uploadFile = (image) => {
+    const storageRef = ref(storage, `files/${image.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, image);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        console.log(progress);
+      },
+      (error) => {
+        alert(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(
+          (downloadURL) => {
+            setData({...data, main_picture1: downloadURL});
+          }
+        );
+      }
+    );
   };
-
-  const uploadImageDisplay = async () => {
-    const uploadedFile = fileUploadRef.current.files[0];
-    const cachedUrl = URL.createObjectURL(uploadedFile)
-    setImgFile(cachedUrl)
-  }
-
-  //
-
 
   const onSaveData = async () => {
     const docRef = doc(db, "general_info", getUserId());
@@ -92,27 +137,19 @@ function App() {
             />
           </div>
           <div>
-            <h2>Add image:</h2>
-
-            <button className="btnImg" onClick={handleImageUpload}>
-              <img
-                className="img"
-                alt="defaultImg"
-                src={DefaultImage}
-              ></img>
-            </button>
-
-            <form id="form" encType="multipart/form-data">
-              <input
-                type="file"
-                id="file"
-                hidden
-                ref={fileUploadRef}
-                onChange={uploadImageDisplay}
-              />
-            </form>
+            <input
+              label="Image"
+              placeholder="Choose image"
+              accept="image/png,image/jpeg"
+              type="file"
+              onChange={(e) => {
+                // setImageUpload(e.target.files[0]);
+                // console.log(e.target.files[0]);
+                uploadFile(e.target.files[0]);
+              }}
+            />
           </div>
-
+          <img src={data.main_picture1} alt="img" />
           <div>
             <button onClick={onSaveData}>Save</button>
           </div>
