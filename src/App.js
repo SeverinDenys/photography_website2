@@ -1,37 +1,22 @@
 import { useEffect, useState, useRef } from "react";
 import { db, storage } from "./db";
 import { getDoc, updateDoc, doc } from "firebase/firestore";
-import DefaultImage from "./assets/uploading-icon-removebg.png";
-import { upload } from "@testing-library/user-event/dist/upload";
-// import {
-//   getDownloadURL,
-//   ref as storageRef,
-//   uploadBytes,
-// } from "firebase/storage";
-
+import { uuidv4 } from "./utils";
+import { getUserId } from "./utils";
+import InputImg from "../src/components/inputImg";
 import {
   ref,
   getDownloadURL,
   uploadBytesResumable,
 } from "firebase/storage";
+import { Typography, TextField, Button, Box } from "@mui/material";
 
-function uuidv4() {
-  return "10000000-1000-4000-8000-100000000000".replace(
-    /[018]/g,
-    (c) =>
-      (
-        +c ^
-        (crypto.getRandomValues(new Uint8Array(1))[0] &
-          (15 >> (+c / 4)))
-      ).toString(16)
-  );
-}
+uuidv4();
 
-const getUserId = () => window.location.host.split(".")[0];
+getUserId();
 
 function App() {
   const [data, setData] = useState(null);
-  // const [imageURL, setImageURL] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,20 +46,8 @@ function App() {
     setData({ ...data, about_me_sub_title: e.target.value });
   };
 
-  // const handleImageUpload = (event) => {
-  //   event.preventDefault();
-  //   fileUploadRef.current.click();
-  // };
-
-  // const uploadImageDisplay = async () => {
-  //   const uploadedFile = fileUploadRef.current.files[0];
-  //   const cachedUrl = URL.createObjectURL(uploadedFile)
-  //   setImgFile(cachedUrl)
-  // }
-
-  // //
-
   const uploadFile = (image) => {
+    // from where it gets the image?
     const storageRef = ref(storage, `files/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
@@ -92,7 +65,7 @@ function App() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then(
           (downloadURL) => {
-            setData({...data, main_picture1: downloadURL});
+            setData({ ...data, main_picture1: downloadURL });
           }
         );
       }
@@ -110,48 +83,80 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Admin</h1>
+    <div className="container">
+      <h1 className="adminTitle">Admin</h1>
       {!!data && (
         <>
-          <label htmlFor="">Title: </label>
-          <div>
-            <input
-              type="text"
-              value={data.about_me_title}
-              onChange={onTitleChange}
+          <div className="inputsContainer">
+            <Typography
+              variant="h5"
+              component="label"
+              htmlFor="title-input"
+              gutterBottom
+            >
+              Title:{" "}
+            </Typography>
+            <div>
+              <TextField
+                id="title-input"
+                fullWidth
+                variant="outlined"
+                value={data.about_me_title}
+                onChange={onTitleChange}
+                size="small"
+                type="text"
+              />
+            </div>
+            <Typography
+              variant="h5"
+              component="label"
+              htmlFor="title-description"
+              gutterBottom
+              style={{ marginTop: "20px" }}
+            >
+              Description:{" "}
+            </Typography>
+            <div>
+              <TextField
+                id="title-description"
+                fullWidth
+                variant="outlined"
+                size="medium"
+                type="text"
+                value={data.about_me_description}
+                onChange={onDescriptionChange}
+              />
+            </div>
+            <Typography
+              htmlFor="sub-title"
+              variant="h5"
+              component="label"
+              style={{ marginTop: "10px", marginBottom: "10px" }}
+            >
+              Sub_Title:{" "}
+            </Typography>
+            <div>
+              <TextField
+                variant="outlined"
+                size="medium"
+                id="sub-title"
+                value={data.about_me_sub_title}
+                onChange={onSubTitleChange}
+              />
+            </div>
+            <InputImg
+              uploadFile={uploadFile}
+              imageUrl={data.main_picture1}
             />
-          </div>
-          <label htmlFor="">Description: </label>
-          <div>
-            <textarea
-              value={data.about_me_description}
-              onChange={onDescriptionChange}
-            />
-          </div>
-          <label htmlFor="">Sub_Title: </label>
-          <div>
-            <textarea
-              value={data.about_me_sub_title}
-              onChange={onSubTitleChange}
-            />
-          </div>
-          <div>
-            <input
-              label="Image"
-              placeholder="Choose image"
-              accept="image/png,image/jpeg"
-              type="file"
-              onChange={(e) => {
-                // setImageUpload(e.target.files[0]);
-                // console.log(e.target.files[0]);
-                uploadFile(e.target.files[0]);
-              }}
-            />
-          </div>
-          <img src={data.main_picture1} alt="img" />
-          <div>
-            <button onClick={onSaveData}>Save</button>
+            <div>
+              <Button
+                onClick={onSaveData}
+                variant="contained"
+                color="primary"
+              >
+                Save
+              </Button>
+            </div>
           </div>
         </>
       )}

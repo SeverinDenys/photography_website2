@@ -1,11 +1,41 @@
+body {
+font-size: 62.5%;
+}
+
+
+.inputsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.adminTitle {
+  
+text-align: center;
+font-size: 2.5rem;
+}
+
 .img {
-  height: 120px;
-width: 120px;
-border-radius: 50%;
+  margin : 1rem 0;
+height: 100%;
+width: 100%;
+ 
 }
 
 .btnImg {
 cursor: pointer;
 background: none;
 border: none;
+ 
 }
+
+ 
+
+/* inputImgJsx */
+.chooseFileContainer {
+  margin-top: 1rem;
+  
+}
+ 
+ 
