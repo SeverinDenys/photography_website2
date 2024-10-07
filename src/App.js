@@ -10,6 +10,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { Typography, TextField, Button, Box } from "@mui/material";
+import Header from "./components/header/Header";
 
 uuidv4();
 
@@ -46,8 +47,9 @@ function App() {
     setData({ ...data, about_me_sub_title: e.target.value });
   };
 
-  const uploadFile = (image) => {
-    // from where it gets the image?
+  const uploadFile = (image, fieldName) => {
+    console.log("fieldName", fieldName);
+
     const storageRef = ref(storage, `files/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
@@ -65,7 +67,7 @@ function App() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then(
           (downloadURL) => {
-            setData({ ...data, main_picture1: downloadURL });
+            setData({ ...data, [fieldName]: downloadURL });
           }
         );
       }
@@ -83,84 +85,105 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <h1 className="adminTitle">Admin</h1>
-      {!!data && (
-        <>
-          <div className="inputsContainer">
-            <Typography
-              variant="h5"
-              component="label"
-              htmlFor="title-input"
-              gutterBottom
-            >
-              Title:{" "}
-            </Typography>
-            <div>
-              <TextField
-                id="title-input"
-                fullWidth
-                variant="outlined"
-                value={data.about_me_title}
-                onChange={onTitleChange}
-                size="small"
-                type="text"
-              />
-            </div>
-            <Typography
-              variant="h5"
-              component="label"
-              htmlFor="title-description"
-              gutterBottom
-              style={{ marginTop: "20px" }}
-            >
-              Description:{" "}
-            </Typography>
-            <div>
-              <TextField
-                id="title-description"
-                fullWidth
-                variant="outlined"
-                size="medium"
-                type="text"
-                value={data.about_me_description}
-                onChange={onDescriptionChange}
-              />
-            </div>
-            <Typography
-              htmlFor="sub-title"
-              variant="h5"
-              component="label"
-              style={{ marginTop: "10px", marginBottom: "10px" }}
-            >
-              Sub_Title:{" "}
-            </Typography>
-            <div>
-              <TextField
-                variant="outlined"
-                size="medium"
-                id="sub-title"
-                value={data.about_me_sub_title}
-                onChange={onSubTitleChange}
-              />
-            </div>
-            <InputImg
-              uploadFile={uploadFile}
-              imageUrl={data.main_picture1}
-            />
-            <div>
-              <Button
-                onClick={onSaveData}
-                variant="contained"
-                color="primary"
+    <>
+      <Header />
+      <div className="container">
+        <h1 className="adminTitle">Admin</h1>
+        {!!data && (
+          <>
+            <div className="inputsContainer">
+              <Typography
+                variant="h5"
+                component="label"
+                htmlFor="title-input"
+                gutterBottom
               >
-                Save
-              </Button>
+                Title:{" "}
+              </Typography>
+              <div>
+                <TextField
+                  id="title-input"
+                  fullWidth
+                  variant="outlined"
+                  value={data.about_me_title}
+                  onChange={onTitleChange}
+                  size="small"
+                  type="text"
+                />
+              </div>
+              <Typography
+                variant="h5"
+                component="label"
+                htmlFor="title-description"
+                gutterBottom
+                style={{ marginTop: "20px" }}
+              >
+                Description:{" "}
+              </Typography>
+              <div>
+                <TextField
+                  id="title-description"
+                  fullWidth
+                  variant="outlined"
+                  size="medium"
+                  type="text"
+                  value={data.about_me_description}
+                  onChange={onDescriptionChange}
+                />
+              </div>
+              <Typography
+                htmlFor="sub-title"
+                variant="h5"
+                component="label"
+                style={{ marginTop: "10px", marginBottom: "10px" }}
+              >
+                Sub_Title:{" "}
+              </Typography>
+              <div>
+                <TextField
+                  variant="outlined"
+                  size="medium"
+                  id="sub-title"
+                  value={data.about_me_sub_title}
+                  onChange={onSubTitleChange}
+                />
+              </div>
+              <img
+                className="img"
+                src={data.main_picture1}
+                alt="main img"
+              />
+              <InputImg
+                uploadFile={uploadFile}
+                fieldName={"main_picture1"}
+              />
+
+              <img
+                className="img"
+                src={data.author_img}
+                alt="author img"
+              />
+              <InputImg
+                uploadFile={uploadFile}
+                // imageUrl={data.author_img}
+                fieldName={"author_img"}
+              />
+
+              <div>
+                <Button
+                  sx={{ marginTop: "2rem", marginBottom: "2rem" }} // Inline margin using sx prop
+                  onClick={onSaveData}
+                  variant="contained"
+                  color="primary"
+                >
+                  Save
+                </Button>
+              </div>
             </div>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }
 

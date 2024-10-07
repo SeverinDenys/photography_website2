@@ -1,25 +1,40 @@
-body {
-font-size: 62.5%;
-}
+ 
 
+body {
+  font-size: 62.5%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f2f5;
+}
+ 
 
 .inputsContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+   
 }
 
 .adminTitle {
   
 text-align: center;
 font-size: 2.5rem;
+margin-bottom: 2rem;
+font-weight: bold;
+color: #333;
 }
 
 .img {
   margin : 1rem 0;
-height: 100%;
-width: 100%;
+max-height: 500px;
+max-width: 500px;
+max-width: 100%;
+object-fit: cover;
+border-radius: 8px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
  
 }
 
@@ -27,15 +42,57 @@ width: 100%;
 cursor: pointer;
 background: none;
 border: none;
- 
+transition: transform 0.3s ease;
 }
-
  
 
 /* inputImgJsx */
 .chooseFileContainer {
   margin-top: 1rem;
-  
+ 
 }
  
  
+/* HEADER JSX COMPONENT */
+.header {
+display: flex;
+justify-content: space-around;
+ 
+}
+
+.header button {
+font-size: 1.5rem;
+}
+
+/* Sidebar */
+
+.sidebar {
+  width: 200px;               
+  height: 100vh;            
+  background-color: #f4f4f4;   
+  padding: 20px;              
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);  
+}
+ 
+
+.sidebar ul {
+  list-style-type: none;     
+  padding: 0;      
+  font-size: 2rem;          
+}
+
+.sidebar li {
+  margin: 20px 0;           
+}
+
+.sidebar a {
+  text-decoration: none;     
+  color: #333;              
+  display: block;           
+  padding: 10px;           
+  border-radius: 4px;        
+}
+
+.sidebar a:hover {
+  background-color: #e2e2e2; /* Change background on hover */
+}
