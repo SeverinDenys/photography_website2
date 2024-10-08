@@ -96,3 +96,24 @@ font-size: 1.5rem;
 .sidebar a:hover {
   background-color: #e2e2e2; /* Change background on hover */
 }
+
+
+/* MY-WORKS */
+.buttonMyWorks {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.photoSessionsDataContainer {
+ 
+display: flex;
+ flex-direction: column;
+ text-align: center;
+}
+
+.photoSessionDataContainer {
+display: flex;
+ flex-direction: column;
+ margin: 0 auto;
+}
