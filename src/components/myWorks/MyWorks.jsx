@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../header/Header";
-import { useState, useEffect } from "react";
 import {
   getDoc,
   getDocs,
@@ -10,14 +9,21 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../../db";
+import {
+  getDownloadURL,
+  uploadBytesResumable,
+  ref,
+} from "firebase/storage";
+import { db, storage } from "../../db";
 import { getUserId } from "../../utils";
-import { Typography, TextField, Button, Box } from "@mui/material";
+import { Typography, TextField, Button } from "@mui/material";
 import MyWorksImgFolders from "./MyWorksImgFolders";
 
 export default function MyWorks() {
   const [myWorksData, setMyWorksData] = useState([]);
   const [photoSessionsData, setPhotoSessionsData] = useState([]);
+
+  console.log("photoSessionsData", photoSessionsData);
 
   const fetchPhotoSessionGeneralInfo = async () => {
     try {
@@ -70,6 +76,34 @@ export default function MyWorks() {
     fetchPhotoSessions();
   }, []);
 
+  const uploadFile = (image, fieldName) => {
+    const storageRef = ref(storage, `files/${image.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, image);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        console.log(progress);
+      },
+      (error) => {
+        alert(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(
+          (downloadURL) => {
+            setPhotoSessionsData({
+              ...photoSessionsData,
+              [fieldName]: downloadURL,
+            });
+          }
+        );
+      }
+    );
+  };
+
   const onTitleChange = (e) => {
     setMyWorksData({ ...myWorksData, title: e.target.value });
   };
@@ -102,8 +136,7 @@ export default function MyWorks() {
     });
 
     try {
-      await Promise.all(updatePromises); // Wait for all update operations to complete
-      // why i need this line 112?
+      await Promise.all(updatePromises); // Wait for all
 
       console.log("All photo sessions updated successfully!");
     } catch (error) {
@@ -115,7 +148,8 @@ export default function MyWorks() {
     <div>
       <>
         <Header />
-        <div>
+        <div className="generalInfo">
+          <h1 className="generalInfoTitle">General Info</h1>
           <div className="inputsContainer">
             <Typography
               variant="h5"
@@ -161,6 +195,7 @@ export default function MyWorks() {
                 onClick={onSaveData}
                 variant="contained"
                 color="primary"
+                style={{ marginBottom: "20px" }}
               >
                 Save gen_info
               </Button>
@@ -171,18 +206,9 @@ export default function MyWorks() {
           myWorksData={myWorksData}
           photoSessionsData={photoSessionsData}
           onPhotoSessionsTitleChange={onPhotoSessionsTitleChange}
+          onSaveDataMyWorks={onSaveDataMyWorks}
+          uploadFile={uploadFile}
         />
-
-        <div className="buttonMyWorks">
-          <Button
-            onClick={onSaveDataMyWorks}
-            variant="contained"
-            color="primary"
-            style={{ marginBottom: "20px" }}
-          >
-            Save My Works
-          </Button>
-        </div>
       </>
     </div>
   );

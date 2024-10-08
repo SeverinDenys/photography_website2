@@ -48,8 +48,6 @@ function App() {
   };
 
   const uploadFile = (image, fieldName) => {
-    console.log("fieldName", fieldName);
-
     const storageRef = ref(storage, `files/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
@@ -165,7 +163,6 @@ function App() {
               />
               <InputImg
                 uploadFile={uploadFile}
-                // imageUrl={data.author_img}
                 fieldName={"author_img"}
               />
 

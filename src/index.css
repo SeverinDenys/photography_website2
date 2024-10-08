@@ -106,7 +106,7 @@ font-size: 1.5rem;
 }
 
 .photoSessionsDataContainer {
- 
+ background:lightsteelblue;
 display: flex;
  flex-direction: column;
  text-align: center;
@@ -116,4 +116,14 @@ display: flex;
 display: flex;
  flex-direction: column;
  margin: 0 auto;
+}
+
+.generalInfo {
+border: 1px solid grey;
+background: rgb(194, 230, 241)
+}
+
+.generalInfoTitle {
+text-align: center;
+margin-top: 2rem;
 }

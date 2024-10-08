@@ -1,12 +1,15 @@
 import React from "react";
-import { Typography, TextField } from "@mui/material";
-
+import { Typography, TextField, Button } from "@mui/material";
+import InputImg from "../../components/inputImg";
 export default function MyWorksImgFolders({
   photoSessionsData,
   onPhotoSessionsTitleChange,
+  onSaveDataMyWorks,
+  uploadFile,
 }) {
   return (
     <div className="photoSessionsDataContainer">
+      <h1 className="myWorks">My Works</h1>
       {photoSessionsData &&
         photoSessionsData.map((session, index) => (
           <div key={index} className="photoSessionDataContainer">
@@ -35,8 +38,22 @@ export default function MyWorksImgFolders({
               alt={session.title}
               style={{ width: "300px", height: "auto" }} //
             />
+            <InputImg
+              style={{ marginBottom: "20px" }}
+              uploadFile={uploadFile}
+            />
           </div>
         ))}
+      <div className="buttonMyWorks">
+        <Button
+          onClick={onSaveDataMyWorks}
+          variant="contained"
+          color="primary"
+          style={{ marginBottom: "20px" }}
+        >
+          Save My Works
+        </Button>
+      </div>
     </div>
   );
 }
