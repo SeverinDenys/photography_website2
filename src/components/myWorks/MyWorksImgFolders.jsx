@@ -41,6 +41,7 @@ export default function MyWorksImgFolders({
             <InputImg
               style={{ marginBottom: "20px" }}
               uploadFile={uploadFile}
+              fieldName={index}
             />
           </div>
         ))}

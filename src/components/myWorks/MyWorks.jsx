@@ -76,7 +76,7 @@ export default function MyWorks() {
     fetchPhotoSessions();
   }, []);
 
-  const uploadFile = (image, fieldName) => {
+  const uploadFile = (image, index) => {
     const storageRef = ref(storage, `files/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
@@ -94,10 +94,17 @@ export default function MyWorks() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then(
           (downloadURL) => {
-            setPhotoSessionsData({
-              ...photoSessionsData,
-              [fieldName]: downloadURL,
-            });
+            const newPhotoSessions = photoSessionsData.map(
+              (photoSession, photoSessionIndex) => {
+                if (photoSessionIndex !== index) {
+                  return photoSession;
+                } else {
+                  photoSession.photos[0] = downloadURL;
+                  return photoSession;
+                }
+              }
+            );
+            setPhotoSessionsData(newPhotoSessions);
           }
         );
       }

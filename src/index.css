@@ -15,7 +15,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-   
+  
 }
 
 .adminTitle {
@@ -72,6 +72,7 @@ font-size: 1.5rem;
   background-color: #f4f4f4;   
   padding: 20px;              
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);  
+ 
 }
  
 
@@ -126,4 +127,19 @@ background: rgb(194, 230, 241)
 .generalInfoTitle {
 text-align: center;
 margin-top: 2rem;
+}
+
+/* mainPhotoSessionForm */
+.photoSessionsContainer {
+  display: flex;
+  height: 100vh;
+}
+
+.mainPhotoSessionForm {
+ flex-grow: 1;
+}
+
+.mainPhotoSessionForm h1 {
+  text-align: center;
+  margin-top: 2rem;
 }
