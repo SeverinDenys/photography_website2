@@ -1,5 +1,7 @@
 import React from "react";
 import { Typography, TextField, Button } from "@mui/material";
+import { db } from "../../db"; // Import your firebase.js
+import { collection, addDoc } from "firebase/firestore";
 
 export default function MainPhotoSessionForm() {
   const [photoSessionsData, setPhotoSessionsData] = React.useState({
@@ -10,7 +12,7 @@ export default function MainPhotoSessionForm() {
   const [savedPhotoSessionsData, setSavedPhotoSessionsData] =
     React.useState({});
 
-  const onSavePhotoSessionData = () => {
+  const onSavePhotoSessionData = async () => {
     // need to get the values from inputs and rewrite the state of photoSessionData
 
     setSavedPhotoSessionsData({
@@ -21,6 +23,16 @@ export default function MainPhotoSessionForm() {
       description: "",
       photos: [],
     });
+    try {
+      // Firestore will automatically create the 'userInputs' collection if it doesn't exist
+      const docRef = await addDoc(
+        collection(db, "userInputs"),
+        photoSessionsData
+      );
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   };
 
   return (
