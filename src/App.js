@@ -17,7 +17,7 @@ uuidv4();
 getUserId();
 
 function App() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(null); 
 
   useEffect(() => {
     const fetchData = async () => {
