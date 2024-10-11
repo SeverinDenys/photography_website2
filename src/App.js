@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { db, storage } from "./db";
 import { getDoc, updateDoc, doc } from "firebase/firestore";
-import { uuidv4 } from "./utils";
+
 import { getUserId } from "./utils";
 import InputImg from "../src/components/inputImg";
 import {
@@ -12,12 +12,8 @@ import {
 import { Typography, TextField, Button, Box } from "@mui/material";
 import Header from "./components/header/Header";
 
-uuidv4();
-
-getUserId();
-
 function App() {
-  const [data, setData] = useState(null); 
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -1,39 +1,34 @@
 import React from "react";
 import { Typography, TextField, Button } from "@mui/material";
-import { db } from "../../db"; // Import your firebase.js
-import { collection, addDoc } from "firebase/firestore";
 
-export default function MainPhotoSessionForm() {
-  const [photoSessionsData, setPhotoSessionsData] = React.useState({
-    title: "",
-    description: "",
-    photos: [],
-  });
-  const [savedPhotoSessionsData, setSavedPhotoSessionsData] =
-    React.useState({});
+export default function MainPhotoSessionForm({
+  selectedPhotoSession,
+  setSelectedPhotoSession,
+  createOrUpdatePhotoSession,
+}) {
+  // const onSavePhotoSessionData = async () => {
+  //   // need to get the values from inputs and rewrite the state of photoSessionData
 
-  const onSavePhotoSessionData = async () => {
-    // need to get the values from inputs and rewrite the state of photoSessionData
-
-    setSavedPhotoSessionsData({
-      ...photoSessionsData,
-    });
-    setPhotoSessionsData({
-      title: "",
-      description: "",
-      photos: [],
-    });
-    try {
-      // Firestore will automatically create the 'userInputs' collection if it doesn't exist
-      const docRef = await addDoc(
-        collection(db, "userInputs"),
-        photoSessionsData
-      );
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
+  //   setSavedPhotoSessionsData({
+  //     ...photoSessionsData,
+  //   });
+  //   setPhotoSessionsData({
+  //     title: "",
+  //     description: "",
+  //     photos: [],
+  //     userId: getUserId(),
+  //   });
+  //   try {
+  //     // Firestore will automatically create the 'userInputs' collection if it doesn't exist
+  //     const docRef = await addDoc(
+  //       collection(db, "photo_sessions"),
+  //       photoSessionsData
+  //     );
+  //     console.log("Document written with ID: ", docRef.id);
+  //   } catch (e) {
+  //     console.error("Error adding document: ", e);
+  //   }
+  // };
 
   return (
     <div className="mainPhotoSessionForm">
@@ -52,10 +47,10 @@ export default function MainPhotoSessionForm() {
           id="title-input"
           fullWidth
           variant="outlined"
-          value={photoSessionsData.title || ""}
+          value={selectedPhotoSession.title || ""}
           onChange={(e) =>
-            setPhotoSessionsData({
-              ...photoSessionsData,
+            setSelectedPhotoSession({
+              ...selectedPhotoSession,
               title: e.target.value,
             })
           }
@@ -76,10 +71,10 @@ export default function MainPhotoSessionForm() {
           id="description-input"
           fullWidth
           variant="outlined"
-          value={photoSessionsData.description || ""}
+          value={selectedPhotoSession.description || ""}
           onChange={(e) =>
-            setPhotoSessionsData({
-              ...photoSessionsData,
+            setSelectedPhotoSession({
+              ...selectedPhotoSession,
               description: e.target.value,
             })
           }
@@ -89,7 +84,7 @@ export default function MainPhotoSessionForm() {
         />
         <div>
           <Button
-            onClick={onSavePhotoSessionData}
+          onClick={createOrUpdatePhotoSession}
             sx={{ marginTop: "2rem", marginBottom: "2rem" }} //
             variant="contained"
             color="primary"
@@ -97,12 +92,6 @@ export default function MainPhotoSessionForm() {
             create / Save
           </Button>
         </div>
-        {savedPhotoSessionsData && (
-          <div>
-            <p>{savedPhotoSessionsData.title}</p>
-            <p>{savedPhotoSessionsData.description}</p>
-          </div>
-        )}
       </div>
     </div>
   );
