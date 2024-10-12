@@ -6,7 +6,7 @@ import MainPhotoSessionForm from "./MainPhotoSessionForm";
 import { collection, query, where } from "firebase/firestore";
 import { db } from "../../db";
 import { getUserId } from "../../utils";
-import { getDocs, addDoc } from "firebase/firestore";
+import { getDoc, getDocs, addDoc } from "firebase/firestore";
 
 export default function PhotoSessions() {
   const [photoSessionData, setPhotoSessionData] = useState([]);
@@ -68,28 +68,63 @@ export default function PhotoSessions() {
     });
   };
 
+  console.log("sek=lectedPhotoSession", selectedPhotoSession);
+
   const createOrUpdatePhotoSession = async () => {
-    console.log("selectedPhotoSession", selectedPhotoSession);
     if (selectedPhotoSession.id) {
+    
       // update
       // to create update Logic
-      // 1 update record by id.
+
       // 2 what returned - rewrite in the array of photoSessionData. use map
+      const updatedSessions = photoSessionData.map((session) => {
+        // 1 update record by id.
+        if (session.id === selectedPhotoSession.id) {
+          return selectedPhotoSession;
+        } else {
+          return session;
+        }
+      });
+      setSelectedPhotoSession(updatedSessions);
       // 3 refresh form after update
+      setSelectedPhotoSession({
+        description: "",
+        id: "",
+        photos: [],
+        title: "",
+        userId: getUserId(),
+        sub_title: "",
+      });
     } else {
       // create
       try {
-        // Firestore will automatically create the 'userInputs' collection if it doesn't exist
         const docRef = await addDoc(
-          
           collection(db, "photo_sessions"),
           selectedPhotoSession
         );
         // todo
         // get the info what i've saved in the firestore
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          console.log("Document data:", docSnap.data());
+        }
+
         // take this object and push to the photoSessionList so it appers in sidebar
+        setPhotoSessionData([
+          ...photoSessionData,
+          selectedPhotoSession,
+        ]);
+
         // selectedPhotoSession and rewrite it to default
-        console.log("Document written with ID: ", docRef);
+        setSelectedPhotoSession({
+          description: "",
+          id: "",
+          photos: [],
+          title: "",
+          userId: getUserId(),
+          sub_title: "",
+        });
       } catch (e) {
         console.error("Error adding document: ", e);
       }
@@ -114,3 +149,10 @@ export default function PhotoSessions() {
     </>
   );
 }
+
+// // 1 update record by id.
+// if (session.id === selectedPhotoSession.id) {
+//   return selectedPhotoSession;
+// } else {
+//   return session;
+// }

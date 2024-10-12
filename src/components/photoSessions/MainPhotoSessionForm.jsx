@@ -84,12 +84,12 @@ export default function MainPhotoSessionForm({
         />
         <div>
           <Button
-          onClick={createOrUpdatePhotoSession}
+            onClick={createOrUpdatePhotoSession}
             sx={{ marginTop: "2rem", marginBottom: "2rem" }} //
             variant="contained"
             color="primary"
           >
-            create / Save
+            create / Update
           </Button>
         </div>
       </div>

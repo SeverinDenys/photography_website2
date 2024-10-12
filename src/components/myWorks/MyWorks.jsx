@@ -23,8 +23,6 @@ export default function MyWorks() {
   const [myWorksData, setMyWorksData] = useState([]);
   const [photoSessionsData, setPhotoSessionsData] = useState([]);
 
-  console.log("photoSessionsData", photoSessionsData);
-
   const fetchPhotoSessionGeneralInfo = async () => {
     try {
       const docRef = doc(db, "photo_session_general", getUserId());
