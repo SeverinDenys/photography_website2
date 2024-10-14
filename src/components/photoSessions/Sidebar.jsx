@@ -1,8 +1,12 @@
 export default function Sidebar({
   photoSessionData,
   onSelectPhotoSession,
-  onCreateNewPhotoSession
+  onCreateNewPhotoSession,
+  selectedId,
 }) {
+  // console.log("selectedId", selectedId);
+  // todo
+  // if selecteId = session.id , then show the backlights, else - don't
   return (
     <div className="sidebar">
       <ul>
@@ -16,7 +20,9 @@ export default function Sidebar({
             </li>
           ))}
       </ul>
-      <button onClick={onCreateNewPhotoSession}>+ Add Photo Session</button>
+      <button onClick={onCreateNewPhotoSession}>
+        + Add Photo Session
+      </button>
     </div>
   );
 }

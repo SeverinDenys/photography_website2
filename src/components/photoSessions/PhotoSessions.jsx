@@ -6,18 +6,22 @@ import MainPhotoSessionForm from "./MainPhotoSessionForm";
 import { collection, query, where } from "firebase/firestore";
 import { db } from "../../db";
 import { getUserId } from "../../utils";
-import { getDoc, getDocs, addDoc } from "firebase/firestore";
+import { getDoc, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
+
+const defaultPhotoSession = {
+  description: "",
+  id: "",
+  photos: [],
+  title: "",
+  userId: getUserId(),
+  sub_title: "",
+};
 
 export default function PhotoSessions() {
   const [photoSessionData, setPhotoSessionData] = useState([]);
-  const [selectedPhotoSession, setSelectedPhotoSession] = useState({
-    description: "",
-    id: "",
-    photos: [],
-    title: "",
-    userId: getUserId(),
-    sub_title: "",
-  });
+  const [selectedPhotoSession, setSelectedPhotoSession] = useState(
+    defaultPhotoSession
+  );
 
   const fetchPhotoSessions = async () => {
     try {
@@ -41,6 +45,7 @@ export default function PhotoSessions() {
 
         sessions.push({ id: doc.id, ...data }); //fixed the problem with ids title
       });
+      console.log("sessions", sessions);
 
       // Set the retrieved data (list of sessions) to state
       setPhotoSessionData(sessions);
@@ -58,21 +63,21 @@ export default function PhotoSessions() {
   };
 
   const onCreateNewPhotoSession = () => {
-    setSelectedPhotoSession({
-      description: "",
-      id: "",
-      photos: [],
-      title: "",
-      userId: getUserId(),
-      sub_title: "",
-    });
+    setSelectedPhotoSession(defaultPhotoSession);
   };
-
-  console.log("sek=lectedPhotoSession", selectedPhotoSession);
 
   const createOrUpdatePhotoSession = async () => {
     if (selectedPhotoSession.id) {
-    
+      // todo
+      // update record in the DB by id
+
+      const photoSessionWithoutId = {
+        ...selectedPhotoSession,
+      };
+      delete photoSessionWithoutId.id;
+
+
+      await updateDoc(doc(db, "photo_sessions", selectedPhotoSession.id ), photoSessionWithoutId);
       // update
       // to create update Logic
 
@@ -85,22 +90,21 @@ export default function PhotoSessions() {
           return session;
         }
       });
-      setSelectedPhotoSession(updatedSessions);
+      console.log("updatedPhotoSessions", updatedSessions);
+      setPhotoSessionData(updatedSessions);
       // 3 refresh form after update
-      setSelectedPhotoSession({
-        description: "",
-        id: "",
-        photos: [],
-        title: "",
-        userId: getUserId(),
-        sub_title: "",
-      });
+      setSelectedPhotoSession(defaultPhotoSession);
     } else {
       // create
+      const photoSessionWithoutId = {
+        ...selectedPhotoSession,
+      };
+      delete photoSessionWithoutId.id;
+
       try {
         const docRef = await addDoc(
           collection(db, "photo_sessions"),
-          selectedPhotoSession
+          photoSessionWithoutId
         );
         // todo
         // get the info what i've saved in the firestore
@@ -113,18 +117,14 @@ export default function PhotoSessions() {
         // take this object and push to the photoSessionList so it appers in sidebar
         setPhotoSessionData([
           ...photoSessionData,
-          selectedPhotoSession,
+          {
+            ...photoSessionWithoutId,
+            id: docSnap.id,
+          },
         ]);
 
         // selectedPhotoSession and rewrite it to default
-        setSelectedPhotoSession({
-          description: "",
-          id: "",
-          photos: [],
-          title: "",
-          userId: getUserId(),
-          sub_title: "",
-        });
+        setSelectedPhotoSession(defaultPhotoSession);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
@@ -139,6 +139,7 @@ export default function PhotoSessions() {
           photoSessionData={photoSessionData}
           onSelectPhotoSession={onSelectPhotoSession}
           onCreateNewPhotoSession={onCreateNewPhotoSession}
+          selectedId={selectedPhotoSession.id}
         />
         <MainPhotoSessionForm
           selectedPhotoSession={selectedPhotoSession}
