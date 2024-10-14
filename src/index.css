@@ -98,6 +98,9 @@ font-size: 1.5rem;
   background-color: #e2e2e2; /* Change background on hover */
 }
 
+.sidebar-item {
+cursor: pointer;
+}
 
 /* MY-WORKS */
 .buttonMyWorks {

@@ -89,7 +89,7 @@ export default function MainPhotoSessionForm({
             variant="contained"
             color="primary"
           >
-            create / Update
+            {selectedPhotoSession.id ? "Update" : "Create"}
           </Button>
         </div>
       </div>

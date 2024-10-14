@@ -9,12 +9,22 @@ export default function Sidebar({
   // if selecteId = session.id , then show the backlights, else - don't
   return (
     <div className="sidebar">
-      <ul>
+      <ul
+        onClick={() => {
+          console.log("clicked");
+        }}
+      >
         {photoSessionData &&
           photoSessionData.map((session, index) => (
             <li
+              className="sidebar-item"
               onClick={() => onSelectPhotoSession(session)}
               key={index}
+              style={
+                selectedId === session.id
+                  ? { backgroundColor: "lightsteelblue" }
+                  : {}
+              }
             >
               {session.title}
             </li>
