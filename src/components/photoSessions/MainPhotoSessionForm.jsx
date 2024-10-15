@@ -1,38 +1,16 @@
 import React from "react";
 import { Typography, TextField, Button } from "@mui/material";
+import InputImg from "../../components/inputImg";
 
 export default function MainPhotoSessionForm({
   selectedPhotoSession,
   setSelectedPhotoSession,
   createOrUpdatePhotoSession,
+  uploadFile,
 }) {
-  // const onSavePhotoSessionData = async () => {
-  //   // need to get the values from inputs and rewrite the state of photoSessionData
-
-  //   setSavedPhotoSessionsData({
-  //     ...photoSessionsData,
-  //   });
-  //   setPhotoSessionsData({
-  //     title: "",
-  //     description: "",
-  //     photos: [],
-  //     userId: getUserId(),
-  //   });
-  //   try {
-  //     // Firestore will automatically create the 'userInputs' collection if it doesn't exist
-  //     const docRef = await addDoc(
-  //       collection(db, "photo_sessions"),
-  //       photoSessionsData
-  //     );
-  //     console.log("Document written with ID: ", docRef.id);
-  //   } catch (e) {
-  //     console.error("Error adding document: ", e);
-  //   }
-  // };
-
   return (
     <div className="mainPhotoSessionForm">
-      <h1>MainPhotoSessionForm</h1>{" "}
+      <h1>MainPhotoSessionForm</h1>
       <div className="inputsContainer">
         <Typography
           variant="h5"
@@ -83,14 +61,36 @@ export default function MainPhotoSessionForm({
           style={{ width: "50%" }}
         />
         <div>
-          <Button
-            onClick={createOrUpdatePhotoSession}
-            sx={{ marginTop: "2rem", marginBottom: "2rem" }} //
-            variant="contained"
-            color="primary"
-          >
-            {selectedPhotoSession.id ? "Update" : "Create"}
-          </Button>
+          <div className="imgData-container">
+            {selectedPhotoSession.photos.map((photoUrl, index) => (
+              <div className="img-container" key={index}>
+                <img className="img" src={photoUrl} alt={"uploaded"} />
+                <div className="btn-container">
+                  <button>Edit</button>
+                  <button>Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="upload-img">
+            <InputImg
+              uploadFile={uploadFile}
+              style={{ marginBottom: "20px" }}
+            />
+          </div>
+          <div className="mainPhotoSessionBtn">
+            <Button
+              onClick={createOrUpdatePhotoSession}
+              sx={{
+                marginTop: "2rem",
+                marginBottom: "2rem",
+              }}
+              variant="contained"
+              color="primary"
+            >
+              {selectedPhotoSession.id ? "Update" : "Create"}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

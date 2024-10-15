@@ -4,9 +4,20 @@ import Header from "../header/Header";
 import Sidebar from "./Sidebar";
 import MainPhotoSessionForm from "./MainPhotoSessionForm";
 import { collection, query, where } from "firebase/firestore";
-import { db } from "../../db";
+import { db, storage } from "../../db";
 import { getUserId } from "../../utils";
-import { getDoc, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
+import {
+  getDoc,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
+import {
+  getDownloadURL,
+  uploadBytesResumable,
+  ref,
+} from "firebase/storage";
 
 const defaultPhotoSession = {
   description: "",
@@ -45,7 +56,6 @@ export default function PhotoSessions() {
 
         sessions.push({ id: doc.id, ...data }); //fixed the problem with ids title
       });
-      console.log("sessions", sessions);
 
       // Set the retrieved data (list of sessions) to state
       setPhotoSessionData(sessions);
@@ -76,8 +86,10 @@ export default function PhotoSessions() {
       };
       delete photoSessionWithoutId.id;
 
-
-      await updateDoc(doc(db, "photo_sessions", selectedPhotoSession.id ), photoSessionWithoutId);
+      await updateDoc(
+        doc(db, "photo_sessions", selectedPhotoSession.id),
+        photoSessionWithoutId
+      );
       // update
       // to create update Logic
 
@@ -131,6 +143,39 @@ export default function PhotoSessions() {
     }
   };
 
+  // UPLOAD PHOTO TO PAGE
+  const uploadFile = (image, index) => {
+    const storageRef = ref(storage, `files/${image.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, image);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        console.log(progress);
+      },
+      (error) => {
+        alert(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(
+          (downloadURL) => {
+            const newPhotosArray = [
+              ...selectedPhotoSession.photos,
+              downloadURL,
+            ]; // Add the new URL to the array
+            setSelectedPhotoSession({
+              ...selectedPhotoSession,
+              photos: newPhotosArray, // Update the photos state
+            });
+          }
+        );
+      }
+    );
+  };
+
   return (
     <>
       <Header />
@@ -145,6 +190,7 @@ export default function PhotoSessions() {
           selectedPhotoSession={selectedPhotoSession}
           setSelectedPhotoSession={setSelectedPhotoSession}
           createOrUpdatePhotoSession={createOrUpdatePhotoSession}
+          uploadFile={uploadFile}
         />
       </div>
     </>

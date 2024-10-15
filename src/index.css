@@ -146,3 +146,30 @@ margin-top: 2rem;
   text-align: center;
   margin-top: 2rem;
 }
+
+.mainPhotoSessionBtn {
+ text-align: center;
+}
+
+.imgData-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  grid-template-rows: repeat(2, auto); /* Each row height is auto */
+  gap: 10px; /* Space between items */
+}
+
+.img-container {
+  display: flex;
+  flex-direction: column; /* Stack the image and buttons vertically */
+  align-items: center; /* Center align items */
+}
+
+.btn-container {
+  display: flex;
+  justify-content: space-around; /* Space buttons apart */
+   
+}
+
+.upload-img {
+text-align: center;
+}
