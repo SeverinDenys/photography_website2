@@ -7,7 +7,12 @@ export default function MainPhotoSessionForm({
   setSelectedPhotoSession,
   createOrUpdatePhotoSession,
   uploadFile,
+  deletePhotoSession,
 }) {
+  const handleDelete = (photoUrl) => {
+    console.log("photoUrl", photoUrl);
+    deletePhotoSession(photoUrl);
+  };
   return (
     <div className="mainPhotoSessionForm">
       <h1>MainPhotoSessionForm</h1>
@@ -64,10 +69,16 @@ export default function MainPhotoSessionForm({
           <div className="imgData-container">
             {selectedPhotoSession.photos.map((photoUrl, index) => (
               <div className="img-container" key={index}>
-                <img className="img" src={photoUrl} alt={"uploaded"} />
+                <img
+                  className="img"
+                  src={photoUrl}
+                  alt={"uploaded"}
+                />
                 <div className="btn-container">
                   <button>Edit</button>
-                  <button>Delete</button>
+                  <button onClick={() => handleDelete(photoUrl)}>
+                    Delete
+                  </button>
                 </div>
               </div>
             ))}

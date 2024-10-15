@@ -12,6 +12,7 @@ import {
   addDoc,
   updateDoc,
   doc,
+  deleteDoc,
 } from "firebase/firestore";
 import {
   getDownloadURL,
@@ -176,6 +177,25 @@ export default function PhotoSessions() {
     );
   };
 
+  const deletePhotoSession = (photoUrlToRemove) => {
+    const updatedPhotos = selectedPhotoSession.photos.filter(
+      (photoSessionUrl) => photoSessionUrl !== photoUrlToRemove
+    );
+
+    // Update the selectedPhotoSession state with the new photos array
+    setSelectedPhotoSession({
+      ...selectedPhotoSession,
+      photos: updatedPhotos,
+    });
+
+    // delete it from Firestore as well
+    if (selectedPhotoSession.id) {
+      updateDoc(doc(db, "photo_sessions", selectedPhotoSession.id), {
+        photos: updatedPhotos,
+      });
+    }
+  };
+
   return (
     <>
       <Header />
@@ -191,6 +211,8 @@ export default function PhotoSessions() {
           setSelectedPhotoSession={setSelectedPhotoSession}
           createOrUpdatePhotoSession={createOrUpdatePhotoSession}
           uploadFile={uploadFile}
+          deletePhotoSession={deletePhotoSession}
+          photoSessionData={photoSessionData}
         />
       </div>
     </>
