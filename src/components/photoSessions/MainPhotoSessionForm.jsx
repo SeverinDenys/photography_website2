@@ -9,10 +9,7 @@ export default function MainPhotoSessionForm({
   uploadFile,
   deletePhotoSession,
 }) {
-  const handleDelete = (photoUrl) => {
-    console.log("photoUrl", photoUrl);
-    deletePhotoSession(photoUrl);
-  };
+   
   return (
     <div className="mainPhotoSessionForm">
       <h1>MainPhotoSessionForm</h1>
@@ -76,7 +73,7 @@ export default function MainPhotoSessionForm({
                 />
                 <div className="btn-container">
                   <button>Edit</button>
-                  <button onClick={() => handleDelete(photoUrl)}>
+                  <button onClick={() => deletePhotoSession(photoUrl)}>
                     Delete
                   </button>
                 </div>

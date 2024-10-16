@@ -145,7 +145,7 @@ export default function PhotoSessions() {
   };
 
   // UPLOAD PHOTO TO PAGE
-  const uploadFile = (image, index) => {
+  const uploadFile = (image) => {
     const storageRef = ref(storage, `files/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 

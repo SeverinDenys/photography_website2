@@ -4,7 +4,7 @@ export default function Sidebar({
   onCreateNewPhotoSession,
   selectedId,
 }) {
-  // console.log("selectedId", selectedId);
+  
   // todo
   // if selecteId = session.id , then show the backlights, else - don't
   return (

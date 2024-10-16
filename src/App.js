@@ -11,9 +11,11 @@ import {
 } from "firebase/storage";
 import { Typography, TextField, Button, Box } from "@mui/material";
 import Header from "./components/header/Header";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +30,13 @@ function App() {
         console.error("Error fetching document: ", error);
       }
     };
-    fetchData();
+
+    console.log("getUserId", getUserId());
+    if (getUserId()) {
+      fetchData();
+    } else {
+      navigate("/signIn");
+    }
   }, []);
 
   const onTitleChange = (e) => {

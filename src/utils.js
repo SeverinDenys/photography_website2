@@ -10,4 +10,16 @@ export function uuidv4() {
   );
 }
 
-export const getUserId = () => window.location.host.split(".")[0]; // need to understand more in detail how this code works in connection to other code
+export const getUserId = () => {
+  const subdomain = window.location.host.split(".")[0];
+
+  if (subdomain.startsWith("localhost")) return null;
+  else {
+    return subdomain;
+  }
+};
+
+// export const getUserId = () => {
+//  const userId = window.location.host.split(".")[0];
+
+// }   // need to understand more in detail how this code works in connection to other code

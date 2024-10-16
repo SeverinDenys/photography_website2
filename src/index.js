@@ -8,7 +8,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import MyWorks from "./components/myWorks/MyWorks";
+import FormSign from "./components/form/FormSign";
 import PhotoSessions from "./components/photoSessions/PhotoSessions";
+import FormSignUp from "./components/form/FormSignUp";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
   {
     path: "/photo-sessions", // best practice to write
     element: <PhotoSessions />,
+  },
+  {
+    path: "/signIn", // best practice to write
+    element: <FormSign />,
+  },
+  {
+    path: "/signUp", // best practice to write
+    element: <FormSignUp />,
   },
 ]);
 
