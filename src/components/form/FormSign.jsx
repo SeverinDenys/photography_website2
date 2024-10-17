@@ -13,7 +13,7 @@ export default function FormSign() {
     window.location.href = "http://denys.localhost:3000";
   };
 
-  const [email, setEmail] = useState("");
+  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
   return (
@@ -30,12 +30,12 @@ export default function FormSign() {
         <Typography variant="h4">SIGN IN</Typography>
 
         <TextField
-          label="Email"
+          label="Login"
           variant="outlined"
           margin="normal"
           fullWidth
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={login}
+          onChange={(e) => setLogin(e.target.value)}
         />
 
         <TextField
