@@ -174,3 +174,12 @@ margin-top: 2rem;
 .upload-img {
 text-align: center;
 }
+
+.buttons-container {
+  display: flex;
+ 
+   
+}
+.buttons-container > button {
+margin: 1rem 0.5rem;
+}

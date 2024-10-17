@@ -8,9 +8,8 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 
-export default function MainPhotoSessionForm() {
+export default function FormSign() {
   const onLogin = () => {
-    console.log("hey");
     window.location.href = "http://denys.localhost:3000";
   };
 
