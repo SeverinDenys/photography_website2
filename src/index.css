@@ -183,3 +183,7 @@ text-align: center;
 .buttons-container > button {
 margin: 1rem 0.5rem;
 }
+
+.deletePhotoSession {
+margin-top: 1rem;
+}

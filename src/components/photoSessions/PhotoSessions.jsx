@@ -11,8 +11,8 @@ import {
   getDocs,
   addDoc,
   updateDoc,
-  doc,
   deleteDoc,
+  doc,
 } from "firebase/firestore";
 import {
   getDownloadURL,
@@ -188,12 +188,23 @@ export default function PhotoSessions() {
       photos: updatedPhotos,
     });
 
-    // delete it from Firestore as well
+    // update it from Firestore as well
     if (selectedPhotoSession.id) {
       updateDoc(doc(db, "photo_sessions", selectedPhotoSession.id), {
         photos: updatedPhotos,
       });
     }
+  };
+
+  const onDeleteNewPhotoSession = async (sessionId) => {
+    const deletedPhotoSession = photoSessionData.filter(
+      (deletedPhotoSessionItem) =>
+        deletedPhotoSessionItem.id !== sessionId
+    );
+
+    setPhotoSessionData(deletedPhotoSession);
+
+    await deleteDoc(doc(db, "photo_sessions", sessionId));
   };
 
   return (
@@ -204,6 +215,7 @@ export default function PhotoSessions() {
           photoSessionData={photoSessionData}
           onSelectPhotoSession={onSelectPhotoSession}
           onCreateNewPhotoSession={onCreateNewPhotoSession}
+          onDeleteNewPhotoSession={onDeleteNewPhotoSession}
           selectedId={selectedPhotoSession.id}
         />
         <MainPhotoSessionForm

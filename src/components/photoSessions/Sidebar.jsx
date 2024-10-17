@@ -2,11 +2,9 @@ export default function Sidebar({
   photoSessionData,
   onSelectPhotoSession,
   onCreateNewPhotoSession,
+  onDeleteNewPhotoSession,
   selectedId,
 }) {
-  
-  // todo
-  // if selecteId = session.id , then show the backlights, else - don't
   return (
     <div className="sidebar">
       <ul>
@@ -28,6 +26,12 @@ export default function Sidebar({
       </ul>
       <button onClick={onCreateNewPhotoSession}>
         + Add Photo Session
+      </button>
+      <button
+        className="deletePhotoSession"
+        onClick={() => onDeleteNewPhotoSession(selectedId)}
+      >
+        - delete Photo Session
       </button>
     </div>
   );
