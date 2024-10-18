@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { getAuth } from "firebase/auth";
+
 const firebaseConfig = {
   // TODO make repo private
   apiKey: "AIzaSyCb6dp9i1xCKs2JDYtbgX4ukDOzQDBmCck",
@@ -14,8 +16,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+// initialize authorization
+const auth = getAuth(app);
 // Initialize Firestore
 const db = getFirestore(app);
 
 export const storage = getStorage();
-export { db };
+export { db, auth };

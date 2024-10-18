@@ -14,7 +14,7 @@ import {
   uploadBytesResumable,
   ref,
 } from "firebase/storage";
-import { db, storage } from "../../db";
+import { db, storage } from "../../firebase";
 import { getUserId } from "../../utils";
 import { Typography, TextField, Button } from "@mui/material";
 import MyWorksImgFolders from "./MyWorksImgFolders";

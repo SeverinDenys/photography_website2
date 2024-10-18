@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { db, storage } from "./db";
+import { db, storage } from "./firebase";
 import { getDoc, updateDoc, doc } from "firebase/firestore";
 
 import { getUserId } from "./utils";

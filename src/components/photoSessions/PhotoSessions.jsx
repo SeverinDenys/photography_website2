@@ -4,7 +4,7 @@ import Header from "../header/Header";
 import Sidebar from "./Sidebar";
 import MainPhotoSessionForm from "./MainPhotoSessionForm";
 import { collection, query, where } from "firebase/firestore";
-import { db, storage } from "../../db";
+import { db, storage } from "../../firebase";
 import { getUserId } from "../../utils";
 import {
   getDoc,

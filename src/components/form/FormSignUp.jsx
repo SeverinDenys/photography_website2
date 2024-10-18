@@ -7,18 +7,37 @@ import {
   Box,
 } from "@mui/material";
 import React, { useState } from "react";
+import { auth } from "../../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function MainPhotoSessionForm() {
-  const onLogin = () => {
-    window.location.href = "http://denys.localhost:3000";
-  };
-
   const [emailSignUp, setEmailSignUp] = useState("");
   const [UserNameSignUp, setUserNameSignUp] = useState("");
   const [passwordSignUp, setPasswordSignUp] = useState("");
   const [repeatedPasswordSignUp, setRepeatedPasswordSignUp] =
     useState("");
+    const navigate = useNavigate();
 
+  const onSignUp = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        emailSignUp,
+        passwordSignUp
+      );
+      console.log(userCredential);
+      localStorage.setItem(
+        "user",
+        JSON.stringify(userCredential.user)
+      );
+      navigate('/settings')
+
+      // TODO navigate to create website page.
+    } catch (error) {
+      console.error("Error creating user: ", error.message);
+    }
+  };
   return (
     <Container maxWidth="xs">
       <Box
@@ -53,7 +72,7 @@ export default function MainPhotoSessionForm() {
           margin="normal"
           fullWidth
           value={passwordSignUp}
-          onChange={(e) => setRepeatedPasswordSignUp(e.target.value)}
+          onChange={(e) => setPasswordSignUp(e.target.value)}
         />
 
         <TextField
@@ -62,7 +81,7 @@ export default function MainPhotoSessionForm() {
           margin="normal"
           fullWidth
           value={repeatedPasswordSignUp}
-          onChange={(e) => setPasswordSignUp(e.target.value)}
+          onChange={(e) => setRepeatedPasswordSignUp(e.target.value)}
         />
 
         <div className="buttons-container">
@@ -70,7 +89,7 @@ export default function MainPhotoSessionForm() {
             variant="contained"
             color="primary"
             fullWidth
-            onClick={onLogin}
+            onClick={onSignUp}
             sx={{ mt: 2 }}
           >
             SIGN UP
@@ -80,7 +99,7 @@ export default function MainPhotoSessionForm() {
             variant="contained"
             color="primary"
             fullWidth
-            onClick={onLogin}
+            onClick={onSignUp}
             sx={{ mt: 2 }}
           >
             SIGN UP WITH GOOGLE

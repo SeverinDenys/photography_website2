@@ -11,6 +11,7 @@ import MyWorks from "./components/myWorks/MyWorks";
 import FormSign from "./components/form/FormSign";
 import PhotoSessions from "./components/photoSessions/PhotoSessions";
 import FormSignUp from "./components/form/FormSignUp";
+import Settings from "./components/form/Settings";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/signUp", // best practice to write
     element: <FormSignUp />,
+  },
+  {
+    path: "/settings", // best practice to write
+    element: <Settings />,
   },
 ]);
 
