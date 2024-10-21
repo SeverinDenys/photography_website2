@@ -5,16 +5,9 @@ import {
   Container,
   Box,
 } from "@mui/material";
-import {
-  getDoc,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
-import { collection, query, where } from "firebase/firestore";
-import { db, storage } from "../../firebase";
+import { addDoc, setDoc, doc } from "firebase/firestore";
+import { collection } from "firebase/firestore";
+import { db } from "../../firebase";
 import React, { useState } from "react";
 
 export default function Settings() {
@@ -24,10 +17,31 @@ export default function Settings() {
 
   const onSave = async () => {
     try {
-      const docRef = await addDoc(collection(db, "users"), {
+      await addDoc(collection(db, "users"), {
         email: user.email,
         subdomain: subdomain,
       });
+      await setDoc(doc(db, "general_info", subdomain), {
+        about_me_description: "about_me_description",
+        about_me_sub_title: "about_me_sub_title",
+        about_me_title: "about_me_title",
+        author: {
+          author_description1: "author_description1",
+          author_description2: "author_description2",
+          author_description3: "author_description3",
+          author_subTitle: "author_subTitle",
+          author_title: "author_title",
+        },
+        author_img: "author_img",
+        main_picture1: "main_picture1",
+        main_title: "main_title",
+      });
+
+      await setDoc(doc(db, "photo_session_general", subdomain), {
+        title: "lkasdfhjasfklhfds",
+        sub_title: "heeeeee",
+      });
+
       window.location.href = `http://${subdomain}.localhost:3000/`;
     } catch (e) {
       console.error("Error adding document: ", e);

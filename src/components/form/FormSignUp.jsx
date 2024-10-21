@@ -32,8 +32,7 @@ export default function MainPhotoSessionForm() {
         JSON.stringify(userCredential.user)
       );
       navigate('/settings')
-
-      // TODO navigate to create website page.
+ 
     } catch (error) {
       console.error("Error creating user: ", error.message);
     }
