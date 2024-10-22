@@ -57,9 +57,25 @@ transition: transform 0.3s ease;
 /* HEADER JSX COMPONENT */
 .header {
 display: flex;
-justify-content: space-around;
- 
+justify-content: space-between;
+align-items: center;
 }
+
+.logout-container {
+  margin-left: auto; /* Ensure the logout icon stays at the far right */
+}
+
+
+.menu-buttons {
+  display: flex;
+  justify-content: space-around;
+  flex-grow: 1;
+}
+
+.logout {
+  width: 3rem;
+  cursor: pointer;
+  }
 
 .header button {
 font-size: 1.5rem;
@@ -187,3 +203,5 @@ margin: 1rem 0.5rem;
 .deletePhotoSession {
 margin-top: 1rem;
 }
+
+ 

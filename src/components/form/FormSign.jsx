@@ -7,14 +7,46 @@ import {
   Box,
 } from "@mui/material";
 import React, { useState } from "react";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 export default function FormSign() {
-  const onLogin = () => {
-    window.location.href = "http://denys.localhost:3000";
-  };
+  const [emailSignIn, setEmailSignIn] = useState("");
+  const [passwordSignIn, setPasswordSignIn] = useState("");
 
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+  const userEmail = emailSignIn.toLowerCase();
+
+  const onLogin = async () => {
+    const auth = getAuth();
+
+    try {
+      // Sign in with email and password
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        emailSignIn,
+        passwordSignIn
+      );
+      const user = userCredential.user;
+      console.log("Authenticated User email:", user.email);
+      console.log("Authenticated User subdomain:", user.subdomain);
+
+      // check if user document exists in firestore
+      const userDocRef = doc(db, "users", userEmail); // Reference to the user's document
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        console.log("userData", userData);
+      } else {
+        console.error(
+          `User document for ${emailSignIn} does not exist`
+        );
+      }
+    } catch (error) {
+      console.error("Error signing in: ", error);
+    }
+  };
 
   return (
     <Container maxWidth="xs">
@@ -30,12 +62,12 @@ export default function FormSign() {
         <Typography variant="h4">SIGN IN</Typography>
 
         <TextField
-          label="Login"
+          label="Email"
           variant="outlined"
           margin="normal"
           fullWidth
-          value={login}
-          onChange={(e) => setLogin(e.target.value)}
+          value={emailSignIn}
+          onChange={(e) => setEmailSignIn(e.target.value)}
         />
 
         <TextField
@@ -44,8 +76,8 @@ export default function FormSign() {
           variant="outlined"
           margin="normal"
           fullWidth
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={passwordSignIn}
+          onChange={(e) => setPasswordSignIn(e.target.value)}
         />
 
         <Button
