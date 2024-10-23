@@ -6,14 +6,22 @@ import {
   Container,
   Box,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+
 import { db } from "../../firebase";
+import { useSearchParams } from "react-router-dom";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 
 export default function FormSign() {
   const [emailSignIn, setEmailSignIn] = useState("");
   const [passwordSignIn, setPasswordSignIn] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const userEmail = emailSignIn.toLowerCase();
 
@@ -28,25 +36,56 @@ export default function FormSign() {
         passwordSignIn
       );
       const user = userCredential.user;
-      console.log("Authenticated User email:", user.email);
-      console.log("Authenticated User subdomain:", user.subdomain);
+      console.log("Authenticated User :", user);
 
-      // check if user document exists in firestore
-      const userDocRef = doc(db, "users", userEmail); // Reference to the user's document
-      const userDoc = await getDoc(userDocRef);
+      const collectionRef = collection(db, "users");
 
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        console.log("userData", userData);
-      } else {
-        console.error(
-          `User document for ${emailSignIn} does not exist`
-        );
-      }
+      // Create a query to filter documents by userId
+      const q = query(
+        collectionRef,
+        where("email", "==", user.email)
+      );
+
+      // Fetch all documents in the "photo_sessions" collection
+      const querySnapshot = await getDocs(q);
+      console.log("user", querySnapshot);
+
+      const users = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        // explanation sessions.push(data); // Store each
+
+        users.push({ id: doc.id, ...data }); //fixed the problem with ids title
+      });
+
+      console.log("users", users);
+      localStorage.setItem("users", JSON.stringify(user));
+      window.location.href = `http://${users[0].subdomain}.localhost:3000/?email=${users[0].email}`;
+      // if (userDoc.exists()) {
+      //   const userData = userDoc.data();
+      //   console.log("User data:", userData);
+
+      //   // // Redirect to the subdomain URL
+      //   // if (userData.subdomain) {
+      //   //
+      //   //   window.location.href = `https://${userData.subdomain}.localhost:3000`;
+      //   // } else {
+      //   //   console.log("Subdomain not found in user data");
+      //   // }
+      // } else {
+      //   console.log("User data not found in the database");
+      // }
     } catch (error) {
-      console.error("Error signing in: ", error);
+      alert("invalid login or password");
     }
   };
+
+  useEffect(() => {
+    const isLogOut = searchParams.get("logout");
+    if (isLogOut === "true") {
+      localStorage.clear();
+    }
+  }, []);
 
   return (
     <Container maxWidth="xs">

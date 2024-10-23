@@ -42,7 +42,7 @@ export default function Settings() {
         sub_title: "heeeeee",
       });
 
-      window.location.href = `http://${subdomain}.localhost:3000/`;
+      window.location.href = `http://${subdomain}.localhost:3000/?email=${user.email}`;
     } catch (e) {
       console.error("Error adding document: ", e);
     }

@@ -18,8 +18,3 @@ export const getUserId = () => {
     return subdomain;
   }
 };
-
-// export const getUserId = () => {
-//  const userId = window.location.host.split(".")[0];
-
-// }   // need to understand more in detail how this code works in connection to other code

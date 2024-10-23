@@ -11,13 +11,23 @@ import {
 } from "firebase/storage";
 import { Typography, TextField, Button, Box } from "@mui/material";
 import Header from "./components/header/Header";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function App() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
+    const email = searchParams.get("email");
+    if (email) {
+      localStorage.setItem("user", JSON.stringify({ email }));
+    }
+    const user = localStorage.getItem("user");
+    if (!user) {
+      window.location.href = "http://localhost:3000/signIn";
+    }
+
     const fetchData = async () => {
       try {
         const docRef = doc(db, "general_info", getUserId());

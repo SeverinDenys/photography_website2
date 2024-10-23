@@ -29,7 +29,7 @@ export default function Header() {
     await signOut(auth)
       .then(() => {
         clearLocalStorage();
-        window.location.href = "http://localhost:3000/signIn";
+        window.location.href = "http://localhost:3000/signIn?logout=true";
       })
       .catch((error) => {
         console.error("Error signing out:", error);
