@@ -28,7 +28,7 @@ export default function Settings() {
         author: {
           author_description1: "author_description1",
           author_description2: "author_description2",
-          author_description3: "author_description3",
+
           author_subTitle: "author_subTitle",
           author_title: "author_title",
         },

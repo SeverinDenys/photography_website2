@@ -84,6 +84,26 @@ function App() {
     });
   };
 
+  const onAuthorDescription1Change = (e) => {
+    setData({
+      ...data,
+      author: {
+        ...data.author,
+        author_description1: e.target.value,
+      },
+    });
+  };
+
+  const onAuthorDescription2Change = (e) => {
+    setData({
+      ...data,
+      author: {
+        ...data.author,
+        author_description2: e.target.value,
+      },
+    });
+  };
+
   const uploadFile = (image, fieldName) => {
     const storageRef = ref(storage, `files/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
@@ -236,7 +256,7 @@ function App() {
                   variant="outlined"
                   size="medium"
                   type="text"
-                  value={data.author_title}
+                  value={data.author.author_title}
                   onChange={onAuthorTitleChange}
                 />
               </div>
@@ -257,8 +277,50 @@ function App() {
                   variant="outlined"
                   size="medium"
                   type="text"
-                  value={data.author_subTitle}
+                  value={data.author.author_subTitle}
                   onChange={onAuthorSubTitleChange}
+                />
+              </div>
+
+              <Typography
+                variant="h5"
+                component="label"
+                htmlFor="title-description"
+                gutterBottom
+                style={{ marginTop: "20px" }}
+              >
+                Author Description1:{" "}
+              </Typography>
+              <div>
+                <TextField
+                  id="title-description"
+                  fullWidth
+                  variant="outlined"
+                  size="medium"
+                  type="text"
+                  value={data.author.author_description1}
+                  onChange={onAuthorDescription1Change}
+                />
+              </div>
+
+              <Typography
+                variant="h5"
+                component="label"
+                htmlFor="title-description"
+                gutterBottom
+                style={{ marginTop: "20px" }}
+              >
+                Author Description2:{" "}
+              </Typography>
+              <div>
+                <TextField
+                  id="title-description"
+                  fullWidth
+                  variant="outlined"
+                  size="medium"
+                  type="text"
+                  value={data.author.author_description2}
+                  onChange={onAuthorDescription2Change}
                 />
               </div>
 
