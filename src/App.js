@@ -41,7 +41,6 @@ function App() {
       }
     };
 
-    console.log("getUserId", getUserId());
     if (getUserId()) {
       fetchData();
     } else {
@@ -53,12 +52,36 @@ function App() {
     setData({ ...data, about_me_title: e.target.value });
   };
 
+  const onSubTitleChange = (e) => {
+    setData({ ...data, about_me_sub_title: e.target.value });
+  };
+
+  const onMainDescriptionChange = (e) => {
+    setData({ ...data, main_description_title: e.target.value });
+  };
+
   const onDescriptionChange = (e) => {
     setData({ ...data, about_me_description: e.target.value });
   };
 
-  const onSubTitleChange = (e) => {
-    setData({ ...data, about_me_sub_title: e.target.value });
+  const onAuthorTitleChange = (e) => {
+    setData({
+      ...data,
+      author: {
+        ...data.author,
+        author_title: e.target.value,
+      },
+    });
+  };
+
+  const onAuthorSubTitleChange = (e) => {
+    setData({
+      ...data,
+      author: {
+        ...data.author,
+        author_subTitle: e.target.value,
+      },
+    });
   };
 
   const uploadFile = (image, fieldName) => {
@@ -91,8 +114,10 @@ function App() {
 
     try {
       await updateDoc(docRef, data);
+      alert("Data saved successfully!");
     } catch (error) {
       console.error("Error updating document: ", error);
+      alert("Error saving data");
     }
   };
 
@@ -130,17 +155,17 @@ function App() {
                 gutterBottom
                 style={{ marginTop: "20px" }}
               >
-                Description:{" "}
+                Description Title:{" "}
               </Typography>
               <div>
                 <TextField
-                  id="title-description"
+                  id="main-title-description"
                   fullWidth
                   variant="outlined"
                   size="medium"
                   type="text"
-                  value={data.about_me_description}
-                  onChange={onDescriptionChange}
+                  value={data.main_description_title}
+                  onChange={onMainDescriptionChange}
                 />
               </div>
               <Typography
@@ -160,29 +185,99 @@ function App() {
                   onChange={onSubTitleChange}
                 />
               </div>
-              <img
-                className="img"
-                src={data.main_picture1}
-                alt="main img"
-              />
+              <Typography
+                variant="h5"
+                component="label"
+                htmlFor="title-description"
+                gutterBottom
+                style={{ marginTop: "20px" }}
+              >
+                Description:{" "}
+              </Typography>
+              <div>
+                <TextField
+                  id="title-description"
+                  fullWidth
+                  variant="outlined"
+                  size="medium"
+                  type="text"
+                  value={data.about_me_description}
+                  onChange={onDescriptionChange}
+                />
+              </div>
+
+              <h1>Main Picture</h1>
+
+              {data.main_picture1 && (
+                <img
+                  className="img"
+                  src={data.main_picture1}
+                  alt="main img"
+                />
+              )}
               <InputImg
                 uploadFile={uploadFile}
                 fieldName={"main_picture1"}
               />
 
-              <img
-                className="img"
-                src={data.author_img}
-                alt="author img"
-              />
+              <Typography
+                variant="h5"
+                component="label"
+                htmlFor="title-description"
+                gutterBottom
+                style={{ marginTop: "20px" }}
+              >
+                Author Title:{" "}
+              </Typography>
+              <div>
+                <TextField
+                  id="title-description"
+                  fullWidth
+                  variant="outlined"
+                  size="medium"
+                  type="text"
+                  value={data.author_title}
+                  onChange={onAuthorTitleChange}
+                />
+              </div>
+
+              <Typography
+                variant="h5"
+                component="label"
+                htmlFor="title-description"
+                gutterBottom
+                style={{ marginTop: "20px" }}
+              >
+                Author subTitle:{" "}
+              </Typography>
+              <div>
+                <TextField
+                  id="title-description"
+                  fullWidth
+                  variant="outlined"
+                  size="medium"
+                  type="text"
+                  value={data.author_subTitle}
+                  onChange={onAuthorSubTitleChange}
+                />
+              </div>
+
+              <h1>Author Img</h1>
+              {data.author_img && (
+                <img
+                  className="img"
+                  src={data.author_img}
+                  alt="author img"
+                />
+              )}
+
               <InputImg
                 uploadFile={uploadFile}
                 fieldName={"author_img"}
               />
-
               <div>
                 <Button
-                  sx={{ marginTop: "2rem", marginBottom: "2rem" }} // Inline margin using sx prop
+                  sx={{ marginTop: "2rem", marginBottom: "2rem" }}
                   onClick={onSaveData}
                   variant="contained"
                   color="primary"

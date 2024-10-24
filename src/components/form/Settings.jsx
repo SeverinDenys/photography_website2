@@ -34,7 +34,7 @@ export default function Settings() {
         },
         author_img: "author_img",
         main_picture1: "main_picture1",
-        main_title: "main_title",
+        main_description_title: "main_description_title",
       });
 
       await setDoc(doc(db, "photo_session_general", subdomain), {
