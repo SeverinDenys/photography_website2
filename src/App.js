@@ -31,10 +31,12 @@ function App() {
     const fetchData = async () => {
       try {
         const docRef = doc(db, "general_info", getUserId());
+        console.log("docRef", docRef);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data();
           setData(data);
+          console.log("data", data);
         }
       } catch (error) {
         console.error("Error fetching document: ", error);

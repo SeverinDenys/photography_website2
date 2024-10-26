@@ -20,6 +20,10 @@ export default function Header() {
     navigate("/photo-sessions");
   };
 
+  const navigateToFooter = () => {
+    navigate("/footer");
+  };
+
   const clearLocalStorage = () => {
     localStorage.clear();
     sessionStorage.clear();
@@ -29,7 +33,8 @@ export default function Header() {
     await signOut(auth)
       .then(() => {
         clearLocalStorage();
-        window.location.href = "http://localhost:3000/signIn?logout=true";
+        window.location.href =
+          "http://localhost:3000/signIn?logout=true";
       })
       .catch((error) => {
         console.error("Error signing out:", error);
@@ -48,6 +53,9 @@ export default function Header() {
           </Button>
           <Button color="inherit" onClick={navigateToPhotoSessions}>
             Photo Sessions
+          </Button>
+          <Button color="inherit" onClick={navigateToFooter}>
+            FOOTER
           </Button>
         </div>
         <div className="logout-container">

@@ -204,4 +204,8 @@ margin: 1rem 0.5rem;
 margin-top: 1rem;
 }
 
- 
+.footer-container {
+  margin-top: 2rem;
+  text-align: center;
+
+}

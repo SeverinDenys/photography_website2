@@ -12,6 +12,7 @@ import FormSign from "./components/form/FormSign";
 import PhotoSessions from "./components/photoSessions/PhotoSessions";
 import FormSignUp from "./components/form/FormSignUp";
 import Settings from "./components/form/Settings";
+import Footer from "./components/footer/Footer";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: "/settings", // best practice to write
     element: <Settings />,
+  },
+  {
+    path: "/footer", // best practice to write
+    element: <Footer />,
   },
 ]);
 

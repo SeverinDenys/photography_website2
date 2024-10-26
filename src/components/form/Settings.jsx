@@ -42,6 +42,14 @@ export default function Settings() {
         sub_title: "heeeeee",
       });
 
+      await setDoc(doc(db, "footer", subdomain), {
+        footer_contact_me: {
+          footer_email: "footer_email",
+          footer_phone: "footer_phone",
+          footer_address: "footer_address",
+        },
+      });
+
       window.location.href = `http://${subdomain}.localhost:3000/?email=${user.email}`;
     } catch (e) {
       console.error("Error adding document: ", e);
