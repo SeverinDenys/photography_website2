@@ -10,8 +10,8 @@ export default function Footer() {
 
   const fetchData = async () => {
     try {
-      const docRef = doc(db, "footer", "kQRiV7sIAkQqYvkbgHw9"); // it actually fetched the data from footer id, but not from user id.
-      // const docRef = doc(db, "footer", getUserId()); // it actually fetched the data from footer id, but not from user id.
+      // const docRef = doc(db, "footer", "kQRiV7sIAkQqYvkbgHw9"); // it actually fetched the data from footer id, but not from user id.
+      const docRef = doc(db, "footer", getUserId()); // it actually fetched the data from footer id, but not from user id.
       console.log("docRef", docRef);
       const docSnap = await getDoc(docRef);
 
@@ -60,19 +60,21 @@ export default function Footer() {
       },
     });
   };
-
   const onSaveData = async () => {
-    const docRef = doc(db, "footer", "kQRiV7sIAkQqYvkbgHw9");
+    // const docRef = doc(db, "footer", "kQRiV7sIAkQqYvkbgHw9"); // Use actual ID here
+
+    const docRef = doc(db, "footer", getUserId()); // Use actual ID here
 
     try {
-      await updateDoc(docRef, footerData);
+      await updateDoc(docRef, {
+        footer_contact_me: footerData.footer_contact_me,
+      });
       alert("Data saved successfully!");
     } catch (error) {
       console.error("Error updating document: ", error);
       alert("Error saving data");
     }
   };
-
   return (
     <>
       <Header />
