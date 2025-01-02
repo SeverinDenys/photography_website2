@@ -48,7 +48,7 @@ function App() {
     } else {
       navigate("/signIn");
     }
-  }, []);
+  }, [navigate, searchParams]);
 
   const onTitleChange = (e) => {
     setData({ ...data, about_me_title: e.target.value });
