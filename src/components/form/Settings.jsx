@@ -47,6 +47,9 @@ export default function Settings() {
           footer_email: "footer_email",
           footer_phone: "footer_phone",
           footer_address: "footer_address",
+          gmail: "gmail",
+          linkedin: "linkedin",
+          whatsapp: "whatsapp",
         },
       });
 

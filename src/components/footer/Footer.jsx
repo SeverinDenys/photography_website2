@@ -61,7 +61,7 @@ export default function Footer() {
     });
   };
   const onSaveData = async () => {
-    // const docRef = doc(db, "footer", "kQRiV7sIAkQqYvkbgHw9"); // Use actual ID here
+    
 
     const docRef = doc(db, "footer", getUserId()); // Use actual ID here
 

@@ -9,7 +9,6 @@ export default function MainPhotoSessionForm({
   uploadFile,
   deletePhotoSession,
 }) {
-   
   return (
     <div className="mainPhotoSessionForm">
       <h1>MainPhotoSessionForm</h1>
@@ -72,8 +71,9 @@ export default function MainPhotoSessionForm({
                   alt={"uploaded"}
                 />
                 <div className="btn-container">
-                  <button>Edit</button>
-                  <button onClick={() => deletePhotoSession(photoUrl)}>
+                  <button
+                    onClick={() => deletePhotoSession(photoUrl)}
+                  >
                     Delete
                   </button>
                 </div>
