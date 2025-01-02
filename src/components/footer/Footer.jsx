@@ -10,8 +10,8 @@ export default function Footer() {
 
   const fetchData = async () => {
     try {
-      // const docRef = doc(db, "footer", "kQRiV7sIAkQqYvkbgHw9"); // it actually fetched the data from footer id, but not from user id.
-      const docRef = doc(db, "footer", getUserId()); // it actually fetched the data from footer id, but not from user id.
+      
+      const docRef = doc(db, "footer", getUserId());  
       console.log("docRef", docRef);
       const docSnap = await getDoc(docRef);
 
@@ -63,7 +63,7 @@ export default function Footer() {
   const onSaveData = async () => {
     
 
-    const docRef = doc(db, "footer", getUserId()); // Use actual ID here
+    const docRef = doc(db, "footer", getUserId());  
 
     try {
       await updateDoc(docRef, {

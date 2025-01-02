@@ -61,20 +61,7 @@ export default function FormSign() {
       console.log("users", users);
       localStorage.setItem("users", JSON.stringify(user));
       window.location.href = `http://${users[0].subdomain}.localhost:3000/?email=${users[0].email}`;
-      // if (userDoc.exists()) {
-      //   const userData = userDoc.data();
-      //   console.log("User data:", userData);
-
-      //   // // Redirect to the subdomain URL
-      //   // if (userData.subdomain) {
-      //   //
-      //   //   window.location.href = `https://${userData.subdomain}.localhost:3000`;
-      //   // } else {
-      //   //   console.log("Subdomain not found in user data");
-      //   // }
-      // } else {
-      //   console.log("User data not found in the database");
-      // }
+      
     } catch (error) {
       alert("invalid login or password");
     }
