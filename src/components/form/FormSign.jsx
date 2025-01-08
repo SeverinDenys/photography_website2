@@ -21,9 +21,9 @@ import {
 export default function FormSign() {
   const [emailSignIn, setEmailSignIn] = useState("");
   const [passwordSignIn, setPasswordSignIn] = useState("");
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  const userEmail = emailSignIn.toLowerCase();
+  
 
   const onLogin = async () => {
     const auth = getAuth();
@@ -72,7 +72,7 @@ export default function FormSign() {
     if (isLogOut === "true") {
       localStorage.clear();
     }
-  }, []);
+  }, [searchParams ]);
 
   return (
     <Container maxWidth="xs">

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { db, storage } from "./firebase";
 import { getDoc, updateDoc, doc } from "firebase/firestore";
 
@@ -9,20 +9,22 @@ import {
   getDownloadURL,
   uploadBytesResumable,
 } from "firebase/storage";
-import { Typography, TextField, Button, Box } from "@mui/material";
+import { Typography, TextField, Button, } from "@mui/material";
 import Header from "./components/header/Header";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 function App() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const email = searchParams.get("email");
     if (email) {
       localStorage.setItem("user", JSON.stringify({ email }));
     }
+
+    
     const user = localStorage.getItem("user");
     if (!user) {
       window.location.href = "http://localhost:3000/signIn";

@@ -18,7 +18,7 @@ export default function MainPhotoSessionForm() {
   const [passwordSignUp, setPasswordSignUp] = useState("");
   const [repeatedPasswordSignUp, setRepeatedPasswordSignUp] =
     useState("");
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onSignUp = async () => {
     try {
@@ -32,8 +32,7 @@ export default function MainPhotoSessionForm() {
         "user",
         JSON.stringify(userCredential.user)
       );
-      navigate('/settings')
- 
+      navigate("/settings");
     } catch (error) {
       console.error("Error creating user: ", error.message);
     }
@@ -93,16 +92,6 @@ export default function MainPhotoSessionForm() {
             sx={{ mt: 2 }}
           >
             SIGN UP
-          </Button>
-
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={onSignUp}
-            sx={{ mt: 2 }}
-          >
-            SIGN UP WITH GOOGLE
           </Button>
         </div>
 
