@@ -17,6 +17,8 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
+import {getHost} from '../../utils'
+
 
 export default function FormSign() {
   const [emailSignIn, setEmailSignIn] = useState("");
@@ -60,7 +62,7 @@ export default function FormSign() {
 
       console.log("users", users);
       localStorage.setItem("users", JSON.stringify(user));
-      window.location.href = `http://${users[0].subdomain}.localhost:3000/?email=${users[0].email}`;
+      window.location.href = `http://${users[0].subdomain}.${getHost()}/?email=${users[0].email}`;
       
     } catch (error) {
       alert("invalid login or password");

@@ -18,3 +18,12 @@ export const getUserId = () => {
     return subdomain;
   }
 };
+
+export const getHost = () => {
+  const isLocal = window.location.host.includes('localhost')
+  if (isLocal) {
+    return 'localhost:3000'
+  } else {
+    return window.location.host
+  }
+}

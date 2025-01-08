@@ -9,6 +9,7 @@ import { addDoc, setDoc, doc } from "firebase/firestore";
 import { collection } from "firebase/firestore";
 import { db } from "../../firebase";
 import React, { useState } from "react";
+import {getHost} from '../../utils'
 
 export default function Settings() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -53,7 +54,7 @@ export default function Settings() {
         },
       });
 
-      window.location.href = `http://${subdomain}.localhost:3000/?email=${user.email}`;
+      window.location.href = `http://${subdomain}.${getHost()}/?email=${user.email}`;
     } catch (e) {
       console.error("Error adding document: ", e);
     }

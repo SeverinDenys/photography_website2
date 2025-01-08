@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Button } from "@mui/material";
 import logOutLogo from "../../assets/log-out.svg";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
+import { getHost } from "../../utils";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -33,8 +34,7 @@ export default function Header() {
     await signOut(auth)
       .then(() => {
         clearLocalStorage();
-        window.location.href =
-          "http://localhost:3000/signIn?logout=true";
+        window.location.href = `http://${getHost()}/signIn?logout=true`;
       })
       .catch((error) => {
         console.error("Error signing out:", error);
