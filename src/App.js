@@ -9,9 +9,10 @@ import {
   getDownloadURL,
   uploadBytesResumable,
 } from "firebase/storage";
-import { Typography, TextField, Button, } from "@mui/material";
+import { Typography, TextField, Button } from "@mui/material";
 import Header from "./components/header/Header";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { getHost } from "./utils";
 
 function App() {
   const [data, setData] = useState(null);
@@ -24,10 +25,9 @@ function App() {
       localStorage.setItem("user", JSON.stringify({ email }));
     }
 
-    
     const user = localStorage.getItem("user");
     if (!user) {
-      window.location.href = "http://localhost:3000/signIn";
+      window.location.href = `http://${getHost()}/signIn`;
     }
 
     const fetchData = async () => {
